@@ -41,18 +41,28 @@
 }
 .error {
 position:absolute;
-
-
+}
+.registion {
+    width: 100px;
+    right: 20px;
+    position: absolute;
+    top: 20px;
+}
+.register-modal {
+    width:350px;
+	height:auto;
+    margin: 15% auto 0 auto;
 }
 </style>
 </head>
 
 <body>
-
+<div id="load">
+	<div class="registion"><span id="regist" style="cursor: pointer;">我要注册</span></div>
 	<div class="page-container">
-		<h1>登录(Login)</h1>
+		<h1>登录</h1>
 		<form action="${ctx}/verifyLoginManage/verifyLogin" method="post">
-			<input type="text" name="username" class="username" id="name"
+			<input type="text" name="username" class="username" id="username"
 				placeholder="请输入您的用户名！"> <input type="password" id="password"
 				name="password" class="password" placeholder="请输入您的用户密码！"> 
 <!-- 			<input	type="Captcha" class="Captcha" name="Captcha" placeholder="请输入验证码！"> -->
@@ -72,14 +82,25 @@ position:absolute;
 <!-- 			</p> -->
 <!-- 		</div> -->
 	</div>
-
+    </div>
 	<!-- Javascript -->
 	<script src="${ctx}/static/js/jquery-1.8.2.min.js"></script>
 	<script src="${ctx}/static/js/supersized.3.2.7.min.js"></script>
 	<script src="${ctx}/static/js/supersized-init.js"></script>
 	<script src="${ctx}/static/js/scripts.js"></script>
 	<script src="http://static.geetest.com/static/tools/gt.js"></script>
-
+    <div id="modal" class="register-modal" hidden>
+    <h1>注册</h1>
+    <form>
+    	<input type="text" name="newName" class="username" id="newName"
+				placeholder="请输入您的用户名！"> 
+		<input type="password" id="newPassword"
+				name="newPassword" class="password" placeholder="请输入您的用户密码！"> 			
+        <input type="password" id="rePassword"
+				name="rePassword" class="password" placeholder="请再次输入您的用户密码！"> 			
+    <button id="register-button" type="submit" class="submit_button">注册</button>
+    </form>
+    </div>
 </body>
 <div style="text-align: center;"></div>
 <script type="text/javascript">
@@ -89,9 +110,12 @@ var passWord = "${passWord}";
 var code = "${code}";
 var message ="${message}";
 $(document).ready(function() {
+	$("#regist").click(function(){
+		$("#load").hide();
+		$("#modal").show();
+	})
 	if(code =="0001"){
 		$("#name").attr("placeholder",message);
-		alert(message);
 	}else if(code == "0002"){
 		$("#password").attr("placeholder",message);
 	}
@@ -113,7 +137,31 @@ $(document).ready(function() {
 	        }, handlerEmbed);
 	    }
 	});
+	
+	$("#register-button").click(function(e){
+		var data ={};
+		$(data).attr("name",$("#newName").val());
+		$(data).attr("passWord",$("#newPassword").val());
+		$.ajax({
+			url: ctx+"/main/registerUser",
+			type:"POST",
+			contentType:"application/json",
+			data:JSON.stringify(data),
+			async:false,
+			success: function(data){  
+				debugger;
+				//if(data.CODE !=null||data.MESSAGE != null)
+	            alert("注册成功");
+	            e.preventDefault();
+	        },  
+	        error: function(json){  
+	            alert("注册失败");  
+	        }  
+			
+		})
+	});
 });
+
 
 var handlerEmbed = function (captchaObj) {
     $("#submit").click(function (e) {
@@ -134,14 +182,15 @@ var handlerEmbed = function (captchaObj) {
     // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
 };
 
-function setValue(){
+function setValue(e){
 	if(userName !=""){
-		$("#name").val(userName);
+		$("#username").val(userName);
 	}
 	if(passWord != ""){
 		$("#password").val(passWord);
 	}
 }
+
 
 </script>
 </html>
