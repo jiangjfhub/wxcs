@@ -37,10 +37,10 @@ public class WxUserController {
 //    		printWriter.write("success");
 //    		printWriter.flush();
 //    		printWriter.close();
-        	return ControllerUtils.createReturnObject(ControllerUtils.RESPONSE_CODE_SUCCESS,"success");
+        	return ControllerUtils.createReturnObject(ControllerUtils.RESPONSE_CODE_SUCCESS,"注册成功");
     	}catch(Exception e){
     		logger.error(e.getMessage());
-    		return ControllerUtils.createReturnObject(ControllerUtils.RESPONSE_CODE_FAILED,"fail");
+    		return ControllerUtils.createReturnObject(ControllerUtils.RESPONSE_CODE_FAILED,"注册失败");
     	}
     }
 }

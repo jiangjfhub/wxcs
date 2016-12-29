@@ -9,7 +9,7 @@
 <title>登录(Login)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
-<meta name="author" content="">
+<meta name="author" content="jjf">
 
 <!-- CSS -->
 <link rel="stylesheet" href="${ctx}/static/css/reset.css">
@@ -144,9 +144,10 @@ $(document).ready(function() {
 		$(data).attr("passWord",$("#newPassword").val());
 		$.ajax({
 			url: ctx+"/main/registerUser",
-			type:"POST",
-			contentType:"application/json",
+			type:"post",
+			contentType:"application/json;charset=utf-8",
 			data:JSON.stringify(data),
+			dataType:"json",
 			async:false,
 			success: function(data){  
 				debugger;
@@ -154,7 +155,7 @@ $(document).ready(function() {
 	            alert("注册成功");
 	            e.preventDefault();
 	        },  
-	        error: function(json){  
+	        error: function(data){  
 	            alert("注册失败");  
 	        }  
 			
