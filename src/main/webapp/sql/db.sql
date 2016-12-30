@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS `wx_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '用户名',
   `pass_word` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '密码',
+  `create_date` DATETIME NOT NULL COMMENT '创建时间',
+  `expire_date` DATETIME NOT NULL COMMENT '过期时间',
   `state` tinyint(4) DEFAULT '1' COMMENT '状态',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
