@@ -1,5 +1,7 @@
 package com.rib.wxcs.bean;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import com.rib.wxcs.base.IdEntity;
@@ -12,6 +14,8 @@ public class WxUser extends IdEntity{
     
      private String name;
      private String passWord;
+     private Date createDate;
+     private Date expireDate;
      private Integer state;
 	public String getName() {
 		return name;

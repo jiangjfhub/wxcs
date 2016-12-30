@@ -1,6 +1,8 @@
 package com.rib.wxcs.controller;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ import com.rib.wxcs.utils.ControllerUtils;
 @RequestMapping(value = "/main")
 public class WxUserController {
     private static Logger logger = LoggerFactory.getLogger(WxUserController.class);
+    private SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
     @Autowired
     private WxUserSV wxUserSV;
     
@@ -30,17 +33,17 @@ public class WxUserController {
     }
     
     @RequestMapping(value="/registerUser",method = RequestMethod.POST)
-    public @ResponseBody Map<String,Object> createUser(@RequestBody WxUser user,PrintWriter printWriter){
+    public @ResponseBody Map<String,Object> createUser(@RequestBody WxUser user){
     	try{
     		user.setState(1);
+    		user.setCreateDate(new Date());
+    		String expireDate = "2099-12-31 23:59:59";
+    		user.setExpireDate(sdf.parse(expireDate));
     		wxUserSV.save(user);
-//    		printWriter.write("success");
-//    		printWriter.flush();
-//    		printWriter.close();
-        	return ControllerUtils.createReturnObject(ControllerUtils.RESPONSE_CODE_SUCCESS,"注册成功");
+        	return ControllerUtils.createReturnObject(ControllerUtils.RESPONSE_CODE_SUCCESS, "注册成功");
     	}catch(Exception e){
     		logger.error(e.getMessage());
-    		return ControllerUtils.createReturnObject(ControllerUtils.RESPONSE_CODE_FAILED,"注册失败");
+    		return ControllerUtils.createReturnObject(ControllerUtils.RESPONSE_CODE_FAILED, "注册失败");
     	}
     }
 }

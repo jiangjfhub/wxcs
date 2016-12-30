@@ -11,16 +11,18 @@
 <meta name="description" content="">
 <meta name="author" content="jjf">
 
-<!-- CSS -->
 <link rel="stylesheet" href="${ctx}/static/css/reset.css">
 <link rel="stylesheet" href="${ctx}/static/css/supersized.css">
 <link rel="stylesheet" href="${ctx}/static/css/style.css">
-
-
-<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-            <script src="assets/js/html5.js"></script>
-        <![endif]-->
+<link rel="stylesheet" href="${ctx}/static/css/base/jquery-ui-1.9.2.custom.min.css">
+<link rel="stylesheet" href="${ctx}/static/css/base/sweetalert.css">
+<script src="${ctx}/static/js/jquery-1.8.2.min.js"></script>
+<script src="${ctx}/static/js/supersized.3.2.7.min.js"></script>
+<script src="${ctx}/static/js/supersized-init.js"></script>
+<script src="${ctx}/static/js/scripts.js"></script>
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
+<script src="${ctx}/static/js/ui/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="${ctx}/static/js/ui/sweetalert.min.js"></script>
 <style type="text/css">
 .Captcha {
 	width: 290px;
@@ -83,20 +85,14 @@ position:absolute;
 <!-- 		</div> -->
 	</div>
     </div>
-	<!-- Javascript -->
-	<script src="${ctx}/static/js/jquery-1.8.2.min.js"></script>
-	<script src="${ctx}/static/js/supersized.3.2.7.min.js"></script>
-	<script src="${ctx}/static/js/supersized-init.js"></script>
-	<script src="${ctx}/static/js/scripts.js"></script>
-	<script src="http://static.geetest.com/static/tools/gt.js"></script>
     <div id="modal" class="register-modal" hidden>
     <h1>注册</h1>
     <form>
-    	<input type="text" name="newName" class="username" id="newName"
+    	<input type="text" name="newName" class="username" id="newName" title=""
 				placeholder="请输入您的用户名！"> 
-		<input type="password" id="newPassword"
-				name="newPassword" class="password" placeholder="请输入您的用户密码！"> 			
-        <input type="password" id="rePassword"
+		<input type="password" id="newPassword" title="密码必须6-12个字符"
+				name="newPassword" class="password" placeholder="密码必须6-12个字符"> 			
+        <input type="password" id="rePassword" title="两次输入密码要一致"
 				name="rePassword" class="password" placeholder="请再次输入您的用户密码！"> 			
     <button id="register-button" type="submit" class="submit_button">注册</button>
     </form>
@@ -139,6 +135,17 @@ $(document).ready(function() {
 	});
 	
 	$("#register-button").click(function(e){
+		
+		if($("#newName").val()==""||$("#newPassword").val()==""||$("#rePassword").val()==""){
+			e.preventDefault();
+			swal("请先填写注册信息！");
+			return;
+		}else if( $("#rePassword").val() != $("#newPassword").val() ) {
+				$("#rePassword").val("");
+				$("#rePassword").attr("placeholder","两次密码输入不一致");
+				e.preventDefault();
+				return;
+		}
 		var data ={};
 		$(data).attr("name",$("#newName").val());
 		$(data).attr("passWord",$("#newPassword").val());
@@ -150,13 +157,25 @@ $(document).ready(function() {
 			dataType:"json",
 			async:false,
 			success: function(data){  
-				debugger;
-				//if(data.CODE !=null||data.MESSAGE != null)
-	            alert("注册成功");
-	            e.preventDefault();
+				if(data && data.CODE && data.CODE == "SUCCESS"){
+					e.preventDefault();
+					 swal({
+							title: "注册成功", 
+							text: "您确定返回登录吗？", 
+							type: "warning",
+							showCancelButton: true,
+							closeOnConfirm: true,
+							confirmButtonText: "是的，我要登录",
+							confirmButtonColor: "#ec6c62"
+							}, function() {
+								window.history.back(-1); 
+							});
+					
+				}
 	        },  
 	        error: function(data){  
-	            alert("注册失败");  
+	        	swal("OMG!", "注册失败", "error");
+	            e.preventDefault();
 	        }  
 			
 		})
@@ -183,7 +202,7 @@ var handlerEmbed = function (captchaObj) {
     // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
 };
 
-function setValue(e){
+function setValue(){
 	if(userName !=""){
 		$("#username").val(userName);
 	}
@@ -191,7 +210,13 @@ function setValue(e){
 		$("#password").val(passWord);
 	}
 }
-
+$("#newPassword").blur(function(){
+	var obj = $("#newPassword");
+	if(obj.val().length < 6 || obj.val().length > 12){
+		obj.val("");
+		obj.attr("placeholder","密码长度不符合要求");
+	}
+});
 
 </script>
 </html>
