@@ -16,8 +16,6 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
 	default-lazy-init="true">
 	<description>Spring公共配置 </description>
-	<aop:aspectj-autoproxy/>
-	
 	<context:annotation-config/>
     
     <!-- 启动组件扫描，排除@Controller组件，该组件由SpringMVC配置文件扫描 -->

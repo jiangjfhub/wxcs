@@ -61,8 +61,7 @@ public class VerifyLoginManageController {
      * 使用post方式，返回验证结果, request表单中必须包含challenge, validate, seccode
      */
     @RequestMapping(value="/verifyLogin", method = RequestMethod.POST)
-    public String verifyLogin(HttpServletRequest request, HttpServletResponse response,Model model,
-            PrintWriter printWriter) throws ServletException, IOException {
+    public String verifyLogin(HttpServletRequest request, HttpServletResponse response,Model model          ) throws ServletException, IOException {
         String page ="/main/main";
         GeetestLib gtSdk = new GeetestLib(GeetestConfig.getGeetest_id(),
                 GeetestConfig.getGeetest_key());
@@ -100,10 +99,9 @@ public class VerifyLoginManageController {
             map.put("version", gtSdk.getVersionInfo());
             model.addAllAttributes(map);
             if(map.get("code").equals("0000")){
-                page = "/mian/index";
+                page = "/main/index";
             }
             
-            //printWriter.println(data.toString());
 
         } else {
             // 验证失败

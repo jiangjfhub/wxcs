@@ -35,3 +35,39 @@ INSERT INTO `wx_user` (`id`, `name`, `pass_word`, `state`) VALUES
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+
+CREATE TABLE `bt_resource` (
+	`id` INT(5) NOT NULL AUTO_INCREMENT,
+	`bt_code` VARCHAR(50) NOT NULL,
+	`bt_name` TEXT NULL,
+	`bt_actor` TEXT NULL,
+	`description` TEXT NULL COMMENT '描述',
+	`img_url` VARCHAR(250) NULL DEFAULT NULL,
+	`released_date` DATETIME NULL DEFAULT NULL,
+	`create_date` DATETIME NULL DEFAULT NULL,
+	`state` TINYINT(4) NOT NULL DEFAULT '1',
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=580
+;
+
+CREATE TABLE `resource_link` (
+	`id` INT(5) NOT NULL AUTO_INCREMENT,
+	`resource_id` INT(11) NOT NULL,
+	`link_name` TEXT NOT NULL,
+	`href_link` TEXT NOT NULL,
+	`magnet_link` TEXT NOT NULL,
+	`size` VARCHAR(255) NULL DEFAULT NULL,
+	`convert_date` DATETIME NULL DEFAULT NULL,
+	`create_date` DATETIME NULL DEFAULT NULL,
+	`state` TINYINT(4) NOT NULL DEFAULT '1',
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=424
+;
+
+

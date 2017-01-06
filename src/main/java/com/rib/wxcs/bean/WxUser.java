@@ -29,6 +29,18 @@ public class WxUser extends IdEntity{
 	public void setPassWord(String passWord) {
 		this.passWord = passWord;
 	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	public Date getExpireDate() {
+		return expireDate;
+	}
+	public void setExpireDate(Date expireDate) {
+		this.expireDate = expireDate;
+	}
 	public Integer getState() {
 		return state;
 	}

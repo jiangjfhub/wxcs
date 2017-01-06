@@ -168,7 +168,7 @@ $(document).ready(function() {
 							confirmButtonText: "是的，我要登录",
 							confirmButtonColor: "#ec6c62"
 							}, function() {
-								window.history.back(-1); 
+								window.location.href='${ctx}/main';
 							});
 					
 				}
